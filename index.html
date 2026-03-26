@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description"
+    content="AnyRecon enable high-quality and large scale 3D reconstruction from sparse inputs.">
+  <meta property="og:title" content="AnyRecon" />
+  <meta property="og:description"
+    content="AnyRecon enable high-quality and large scale 3D reconstruction from sparse inputs." />
+  <meta property="og:url" content="https://AnyRecon.github.io/" />
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <meta property="og:image" content="static/images/teaser.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="600" />
+
+
+  <meta name="twitter:title" content="AnyRecon">
+  <meta name="twitter:description"
+    content="AnyRecon enable high-quality and large scale 3D reconstruction from sparse inputs.">
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <meta name="twitter:image" content="static/images/teaser.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="KEYWORDS SHOULD BE PLACED HERE">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <title>AnyRecon</title>
+  <link rel="icon"  href="static/images/logo.png">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <style>
+    .video-comparison-container {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      overflow: hidden;
+      border-radius: 8px;
+    }
+    .video-comparison-container video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .video-comparison-container .video-2 {
+      clip-path: inset(0 0 0 50%);
+    }
+    .comparison-slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      cursor: ew-resize;
+      z-index: 10;
+      -webkit-appearance: none;
+      appearance: none;
+      margin: 0;
+    }
+    .comparison-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 4px;
+      height: 100vh;
+      background: white;
+      cursor: ew-resize;
+    }
+    .slider-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 4px;
+      height: 100%;
+      background: white;
+      pointer-events: none;
+      z-index: 9;
+      transform: translateX(-50%);
+    }
+    .slider-handle::after {
+      content: "◀ ▶";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      color: black;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 20px;
+      align-items: stretch; /* 修改：让子元素高度拉伸对齐 */
+      margin-bottom: 40px;
+    }
+    .section-divider-container {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 1rem 0 2rem 0;
+    }
+    .section-divider-line {
+      flex: 1;
+      height: 3px;
+      background: linear-gradient(to right, transparent, #d3d3d3);
+    }
+    .section-divider-line.right {
+      background: linear-gradient(to left, transparent, #d3d3d3);
+    }
+    .section-divider-title {
+      margin: 0 2rem !important;
+      padding-bottom: 0 !important;
+    }
+    .input-image-container {
+      display: flex;
+      flex-direction: column;
+    }
+    .input-image-container img {
+      width: 100%;
+      height: 100%; /* 修改：填满容器高度 */
+      object-fit: contain; /* 修改：保持比例并填满 */
+      border-radius: 8px;
+    }
+    .method-pill.active {
+      background-color: #3273dc;
+      color: white;
+      border-color: transparent;
+    }
+  </style>
+  <script src="static/js/video_comparison.js" defer></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+
+<body>
+  <!-- > Hero -->
+  <section class="section" id="section_hero">
+    <div class="container is-max-desktop has-text-centered">
+      <!-- > Title -->
+      <div class="columns is-centered">
+        <div class="column">
+          <h1 class="title publication-title">
+            <span><img src="static/images/logo.png" alt="AnyRecon" style="width:2.6rem"></span>
+            <span class="gradient-headline">AnyRecon</span><span class="pub-colon">:</span>
+            <span class="pub-subtitle">Arbitrary-View 3D Reconstruction </br>
+              with Video Diffusion Model</span>
+          </h1>
+          <div class="is-size-5 publication-authors">
+            <!-- Paper authors -->
+            <span class="author-block">
+              <a href="http://yutian10.github.io" target="_blank">Yutian Chen<sup>&nbsp;1,2</sup></a></span>
+            <span class="author-block">
+              <a href="https://guoshi28.github.io" target="_blank">Shi Guo<sup>&nbsp;1</sup></a></span>
+            <span class="author-block">
+              <a href="https://rbjin.github.io" target="_blank">Renbiao Jin<sup>&nbsp;1,3</sup></a></span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=9b5dE40AAAAJ&hl=en" target="_blank">Tianshuo Yang<sup>&nbsp;1,4</sup></a></span>
+            <span class="author-block">
+              <a href="https://caixin98.github.io" target="_blank">Xin Cai<sup>&nbsp;1,2</sup></a></span>
+            <span class="author-block">
+              <a href="https://luo0207.github.io/yawenluo/" target="_blank">Yawen Luo<sup>&nbsp;2</sup></a></span>
+            <span class="author-block">
+              <a href="" target="_blank">Mingxin Yang<sup>&nbsp;3</sup></a></span>
+            <span class="author-block">
+              <a href="https://mulinyu.github.io" target="_blank">Mulin Yu<sup>&nbsp;1</sup></a></span>
+            <span class="author-block">
+              <a href="https://eveneveno.github.io/lnxu/" target="_blank">Linning Xu<sup>&nbsp;1</sup></a></span>
+            <span class="author-block">
+                <a href="http://tianfan.info" target="_blank">Tianfan Xue<sup>&nbsp;1,2,5</sup></a></span>
+          </div>
+          <!-- Authors affiliation -->
+          <div class="publication-authors">
+            <div class="is-size-5">
+              <span class="author-block"><sup>1&nbsp;</sup>Shanghai AI Laboratory</span>
+              <span class="author-block"><sup>2&nbsp;</sup>MMlab, CUHK</span>
+              <span class="author-block"><sup>3&nbsp;</sup>SJTU</span>
+              <span class="author-block"><sup>4&nbsp;</sup>HKU</span>
+              <span class="author-block"><sup>5&nbsp;</sup>CPII under InnoHK</span>
+            </div>
+
+          </div>
+          <!-- Conference
+          <div class="is-size-5 publication-conference">ICCV 2025</div> -->
+          <!-- Links -->
+          <div class="column">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="" target="_blank"
+                  class="external-link button is-normal is-rounded is-light">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="" target="_blank"
+                  class="external-link button is-normal is-rounded is-light">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href=""
+                  target="_blank" class="external-link button is-normal is-rounded is-light">
+                  <span class="icon"><i class="fas fa-database"></i></span>
+                  <span>Checkpoints</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- > Teaser video-->
+      <div class="publication-video">
+        <video poster="" id="photostyletransfer_demo" width="100%" autoplay loop muted style="margin-top: 8px; margin-bottom: 7px;">
+          <source src="static/videos/web_teaser.mov" type="video/mp4">
+        </video>
+      </div>
+      <div class="content",style="margin-top: 7px;">
+        <p>AnyRecon enables high-quality and large-scale 3D reconstruction from sparse inputs, supporting long trajectories with <span style="font-weight: bold; color: #3273dc;">over 200 frames</span>.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- > Abstract -->
+  <section class="section" id="section_acknowledgments">
+    <div class="container is-max-desktop">
+      <div class="section-divider-container">
+        <div class="section-divider-line"></div>
+        <h2 class="title section-divider-title">Abstract</h2>
+        <div class="section-divider-line right"></div>
+      </div>
+      <p>Sparse-view 3D reconstruction is essential for modeling scenes from casual captures, but remain challenging for non-generative reconstruction. Existing diffusion-based approaches mitigates this issues by synthesizing novel views, but they often condition on only one or two capture frames, which restricts geometric consistency and limits scalability to large or diverse scenes. We propose AnyRecon, a scalable framework for reconstruction from arbitrary and unordered sparse inputs that preserves explicit geometric control while supporting flexible conditioning cardinality. To support long-range conditioning, our method constructs <span style="font-weight: bold; color: #3273dc;">a persistent global scene memory</span> via a prepended capture view cache, and removes temporal compression to maintain frame-level correspondence under large viewpoint changes. Beyond better generative model, we also find that the interplay between generation and reconstruction is crucial for large-scale 3D scenes. Thus, we introduce a geometry-aware conditioning strategy that couples generation and reconstruction through <span style="font-weight: bold; color: #3273dc;">an explicit 3D geometric memory and geometry-driven capture-view retrieval</span>. To ensure efficiency, we combine <span style="font-weight: bold; color: #3273dc;">4-step diffusion distillation with context-window sparse attention</span> to reduce quadratic complexity. Extensive experiments demonstrate robust and scalable reconstruction across irregular inputs, large viewpoint gaps, and long trajectories.</p>
+    </div>
+  </section>
+
+
+   <!-- > Comparisons -->
+   <section class="section" id="section_result1">
+    <div class="container is-max-desktop has-text-centered" id="comparisons">
+      <div class="section-divider-container">
+        <div class="section-divider-line"></div>
+        <h2 class="title section-divider-title">Results</h2>
+        <div class="section-divider-line right"></div>
+      </div>
+      <div id="results-display">
+        <!-- The content will be updated by JS -->
+      </div>
+      
+
+      <div class="scene-pills" id="comparisons-pills" role="group" aria-relevant="additions text">
+        <div class="pill scene-pill active" data-value="chair">
+          <img class="card-img" src="static/videos/results1/chair.png">
+        </div>
+        <div class="pill scene-pill" data-value="desk">
+          <img class="card-img" src="static/videos/results1/desk.png">
+        </div>
+        <div class="pill scene-pill" data-value="dog">
+          <img class="card-img" src="static/videos/results1/dog.png">
+        </div>
+        <div class="pill scene-pill" data-value="flower">
+          <img class="card-img" src="static/videos/results1/flower.png">
+        </div>
+        <div class="pill scene-pill" data-value="building">
+          <img class="card-img" src="static/videos/results1/building.png">
+        </div>
+      </div>
+        
+      
+    </div>
+  </section>
+  
+
+  <!-- > Overview -->
+  <section class="section" id="section_overview">
+    <div class="container is-max-desktop has-text-left">
+      <div class="section-divider-container">
+        <div class="section-divider-line"></div>
+        <h2 class="title section-divider-title">How it works</h2>
+        <div class="section-divider-line right"></div>
+      </div>
+      <div id="video-text-switcher" class="overview-pills" style="flex-direction: column;">
+        <div>
+          <div class="content">
+            <p>
+              Our framework operates through a continuous generation-reconstruction loop: <span style="font-weight: bold; color: #3273dc;">1)</span> It begins by establishing an initial 3D geometry memory from a collection of captured views and performs Geometry-Driven View Selection to identify key reference frames. <span style="font-weight: bold; color: #3273dc;">2)</span> These frames, along with rendered point clouds, guide an Unordered Contextual Video Diffusion model to synthesize consistent novel views, which are then integrated via a <span style="font-weight: bold; color: #3273dc;">3)</span> 3D Geometry Memory Update to refine the global scene representation for subsequent iterations.
+            </p>
+          </div>
+          <ul class="title-list" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <li class="title-pill active" data-label="sparse_view_gs" style="margin-bottom: 0;"><span style="font-weight: bold;">1.</span>
+              Geometry-Driven View Selection.</li>
+            <li class="title-pill" data-label="sparse_to_dense" style="margin-bottom: 0;"><span style="font-weight: bold;">2.</span>
+              Unordered Contextual Video Diffusion.</li>
+            <li class="title-pill" data-label="dense_view_gs" style="margin-bottom: 0;"><span style="font-weight: bold;">3.</span> The
+              3D Geometry Memory Update.</li>
+          </ul>
+        </div>
+
+        <div class="video-wrapper" style="width: 100%;  margin: 0px auto 0;">
+          <video data-label="sparse_view_gs" preload="auto" autoplay muted loop playsinline
+            src="static/videos/step1.mp4">
+          </video>
+          <video data-label="sparse_to_dense" preload="auto" autoplay muted loop playsinline hidden
+            src="static/videos/step2.mp4">
+          </video>
+          <video data-label="dense_view_gs" preload="auto" autoplay muted loop playsinline hidden
+            src="static/videos/step3.mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </section>
+
+ 
+
+  <!-- > New Video Section -->
+  <section class="section" id="section_video_gallery">
+    <div class="container is-max-desktop has-text-centered">
+      <div class="section-divider-container">
+        <div class="section-divider-line"></div>
+        <h2 class="title section-divider-title">Comparisons to other methods</h2>
+        <div class="section-divider-line right"></div>
+      </div>
+      
+      <div id="method-pills" class="buttons is-centered" style="margin-top: 20px;">
+        <button class="button is-rounded method-pill active" data-method="01">ViewCrafter</button>
+        <button class="button is-rounded method-pill" data-method="02">Uni3C</button>
+        <button class="button is-rounded method-pill" data-method="03">Difix3D+</button>
+      </div>
+
+      <div id="video-gallery-display" style="margin-top: 20px;">
+        <!-- The content will be updated by JS -->
+      </div>
+
+      <div class="scene-pills" id="video-gallery-pills">
+        <div class="pill video-pill active" data-value="video1">
+          <img class="card-img" src="static/videos/results2/video1.png">
+        </div>
+        <div class="pill video-pill" data-value="video2">
+          <img class="card-img" src="static/videos/results2/video2.png">
+        </div>
+        <div class="pill video-pill" data-value="video4">
+          <img class="card-img" src="static/videos/results2/video4.png">
+        </div>
+        <div class="pill video-pill" data-value="video3">
+          <img class="card-img" src="static/videos/results2/video3.png">
+        </div>
+      </div>
+        
+      
+    </div>
+  </section>
+
+  
+
+
+  <!-- > BibTex citation -->
+  <section class="section" id="section_bibtex">
+    <div class="container is-max-desktop">
+      <div class="section-divider-container">
+        <div class="section-divider-line"></div>
+        <h2 class="title section-divider-title">BibTeX</h2>
+        <div class="section-divider-line right"></div>
+      </div>
+      <pre><code class="is-small"></code></pre>
+    </div>
+  </section>
+
+  <!-- > Footer -->
+  <footer class="footer">
+    <div class="container is-max-desktop" style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #1C1C1E;">
+      <p>This page was built using <a href="https://github.com/eliahuhorwitz/Academic-project-page-template"
+          target="_blank">Academic Project Page Template</a>. The website's design was inspired by <a
+          href="https://cat-4d.github.io/" target="_blank">CAT4D</a> and <a href="https://cat3d.github.io/"
+          target="_blank">CAT3D</a>.</p>
+    </div>
+  </footer>
+
+  <!-- > Overview video switcher -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const pills = document.querySelectorAll('.title-pill');
+      const videos = document.querySelectorAll('.overview-pills .video-wrapper video');
+      const DEFAULT = 'sparse_view_gs';
+
+      function showVideo(label) {
+        videos.forEach(v => {
+          const active = v.dataset.label === label;
+          v.hidden = !active;
+          if (active) {
+            v.currentTime = 0;
+            v.play();
+          } else {
+            v.pause();
+          }
+        });
+      }
+
+      pills.forEach(pill => pill.addEventListener('click', () => {
+        if (pill.classList.contains('active')) return;
+        pills.forEach(el => el.classList.toggle('active', el === pill));
+        showVideo(pill.dataset.label);
+      }));
+
+      showVideo(DEFAULT);
+    });
+  </script>
+
+  <!-- > Comparisons video switcher -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const compareDiv = document.querySelector('#comparisons');
+      const pills = compareDiv.querySelectorAll('.scene-pill');
+      const resultsDisplay = document.getElementById('results-display');
+      const default_scene = 'chair';
+
+      function loadScene(label) {
+        resultsDisplay.innerHTML = `
+          <div class="results-grid">
+            <div class="input-image-container">
+              <p style="margin-bottom: 10px; font-weight: bold; font-size: 1.25rem;">Input</p>
+              <img src="static/videos/results1/${label}_input.png" alt="Input">
+            </div>
+            <div>
+              <p style="margin-bottom: 10px; font-weight: bold; font-size: 1.25rem;">Output (Slide to Compare)</p>
+              <div class="video-comparison-container">
+                <video class="video-1" autoplay muted loop playsinline preload="auto">
+                  <source src="static/videos/results1/${label}_output.mp4#t=0.001" type="video/mp4">
+                </video>
+                <video class="video-2" autoplay muted loop playsinline preload="auto">
+                  <source src="static/videos/results1/${label}.mp4#t=0.001" type="video/mp4">
+                </video>
+                <input type="range" min="0" max="100" value="50" class="comparison-slider">
+                <div class="slider-handle"></div>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        // Re-initialize slider for the new content
+        const container = resultsDisplay.querySelector('.video-comparison-container');
+        if (container) {
+          new VideoComparison(container);
+          
+          const videos = container.querySelectorAll('video');
+          
+          // Use a simpler sync strategy: pause both, reset, then play when both are ready
+          videos.forEach(v => {
+            v.pause();
+            v.currentTime = 0;
+          });
+
+          let readyCount = 0;
+          const onReady = () => {
+            readyCount++;
+            if (readyCount === videos.length) {
+              videos.forEach(vid => {
+                vid.currentTime = 0;
+                vid.play().catch(e => console.error("Play failed:", e));
+              });
+            }
+          };
+
+          videos.forEach(v => {
+            if (v.readyState >= 3) { // HAVE_FUTURE_DATA or better
+              onReady();
+            } else {
+              v.addEventListener('canplay', onReady, { once: true });
+            }
+            v.load();
+          });
+        }
+      }
+
+      pills.forEach(p => p.addEventListener('click', () => {
+        pills.forEach(el => el.classList.toggle('active', el === p));
+        loadScene(p.dataset.value);
+      }));
+
+      loadScene(default_scene);
+    });
+  </script>
+
+  <!-- > Video Gallery switcher -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const gallerySection = document.querySelector('#section_video_gallery');
+      const videoPills = gallerySection.querySelectorAll('.video-pill');
+      const methodPills = gallerySection.querySelectorAll('.method-pill');
+      const galleryDisplay = document.getElementById('video-gallery-display');
+      
+      let currentVideo = 'video1';
+      let currentMethod = '01';
+
+      function updateGallery() {
+        const methodLabels = {
+          '01': 'ViewCrafter',
+          '02': 'Uni3C',
+          '03': 'Difix3D+'
+        };
+        const currentMethodLabel = methodLabels[currentMethod];
+
+        galleryDisplay.innerHTML = `
+          <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-weight: bold; font-size: 1.1rem;">
+            <span style="flex: 1; text-align: left; padding-left: 10px;">${currentMethodLabel}</span>
+            <span style="flex: 1; text-align: right; padding-right: 10px;">Ours</span>
+          </div>
+          <div class="video-comparison-container">
+            <video class="video-1" autoplay muted loop playsinline preload="auto">
+              <source src="static/videos/results2_2/${currentVideo}_${currentMethod}.mp4#t=0.001" type="video/mp4">
+            </video>
+            <video class="video-2" autoplay muted loop playsinline preload="auto">
+              <source src="static/videos/results2_2/${currentVideo}_04.mp4#t=0.001" type="video/mp4">
+            </video>
+            <input type="range" min="0" max="100" value="50" class="comparison-slider">
+            <div class="slider-handle"></div>
+          </div>
+        `;
+
+        const container = galleryDisplay.querySelector('.video-comparison-container');
+        if (container) {
+          new VideoComparison(container);
+          
+          const videos = container.querySelectorAll('video');
+          
+          // 强制同步逻辑：先暂停并重置，等两个都 ready 后再一起播放
+          videos.forEach(v => {
+            v.pause();
+            v.currentTime = 0;
+          });
+
+          let readyCount = 0;
+          const onReady = () => {
+            readyCount++;
+            if (readyCount === videos.length) {
+              videos.forEach(vid => {
+                vid.currentTime = 0;
+                vid.play().catch(e => console.error("Play failed:", e));
+              });
+            }
+          };
+
+          videos.forEach(v => {
+            if (v.readyState >= 3) { // HAVE_FUTURE_DATA 或更高
+              onReady();
+            } else {
+              v.addEventListener('canplay', onReady, { once: true });
+            }
+            v.load();
+          });
+        }
+      }
+
+      videoPills.forEach(p => p.addEventListener('click', () => {
+        if (p.classList.contains('active')) return;
+        videoPills.forEach(el => el.classList.toggle('active', el === p));
+        currentVideo = p.dataset.value;
+        updateGallery();
+      }));
+
+      methodPills.forEach(p => p.addEventListener('click', () => {
+        if (p.classList.contains('active')) return;
+        methodPills.forEach(el => el.classList.toggle('active', el === p));
+        currentMethod = p.dataset.method;
+        updateGallery();
+      }));
+
+      updateGallery();
+    });
+  </script>
+
+</body>
+
+</html>
