@@ -144,6 +144,69 @@
       color: white;
       border-color: transparent;
     }
+
+    /* 针对手机屏幕优化视频选择按钮 */
+    @media screen and (max-width: 768px) {
+      #video-gallery-pills {
+        display: flex !important;
+        justify-content: center !important;
+        flex-wrap: nowrap !important; /* 强制不换行 */
+        gap: 5px !important; /* 缩小间距 */
+      }
+      #video-gallery-pills .pill {
+        width: 22% !important; /* 4个按钮，每个占约1/4 */
+        margin: 0 !important;
+        height: auto !important; /* 允许高度根据内容自动调整 */
+        aspect-ratio: auto !important; /* 取消可能的强制宽高比 */
+      }
+      #video-gallery-pills .card-img {
+        width: 100% !important;
+        height: auto !important;
+        object-fit: contain !important; /* 确保图片完整显示不被裁剪 */
+        display: block !important;
+      }
+
+      /* 针对 Results 部分的图片按钮优化 */
+      #comparisons-pills {
+        display: flex !important;
+        justify-content: center !important;
+        flex-wrap: nowrap !important;
+        gap: 5px !important;
+      }
+      #comparisons-pills .pill {
+        width: 18% !important; /* 5个按钮，每个占约1/5 */
+        margin: 0 !important;
+        height: auto !important;
+        aspect-ratio: auto !important;
+      }
+      #comparisons-pills .card-img {
+        width: 100% !important;
+        height: auto !important;
+        object-fit: contain !important;
+        display: block !important;
+      }
+    }
+    .publication-video {
+      position: relative;
+      width: 100%;
+    }
+    .video-loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      pointer-events: none;
+      z-index: 1;
+      transition: opacity 0.5s;
+    }
   </style>
   <script src="static/js/video_comparison.js" defer></script>
 
@@ -234,10 +297,23 @@
       </div>
       <!-- > Teaser video-->
       <div class="publication-video">
-        <video poster="" id="photostyletransfer_demo" width="100%" autoplay loop muted style="margin-top: 8px; margin-bottom: 7px;">
-          <source src="static/videos/web_teaser.mov" type="video/mp4">
+        <div id="teaser-loading" class="video-loading-overlay">Loading video...</div>
+        <video poster="static/images/teaser_poster.jpg" id="teaser-video" width="100%" autoplay loop muted playsinline style="margin-top: 8px; margin-bottom: 7px;">
+          <source src="static/videos/web_teaser.mp4" type="video/mp4">
         </video>
       </div>
+      <script>
+        const teaserVideo = document.getElementById('teaser-video');
+        const teaserLoading = document.getElementById('teaser-loading');
+        if (teaserVideo) {
+          teaserVideo.addEventListener('playing', () => {
+            if (teaserLoading) {
+              teaserLoading.style.opacity = '0';
+              setTimeout(() => teaserLoading.style.display = 'none', 500);
+            }
+          });
+        }
+      </script>
       <div class="content",style="margin-top: 7px;">
         <p>AnyRecon enables high-quality and large-scale 3D reconstruction from sparse inputs, supporting long trajectories with <span style="font-weight: bold; color: #3273dc;">over 200 frames</span>.</p>
       </div>
@@ -321,7 +397,7 @@
 
         <div class="video-wrapper" style="width: 100%;  margin: 0px auto 0;">
           <video data-label="sparse_view_gs" preload="auto" autoplay muted loop playsinline
-            src="static/videos/step1.mp4">
+            src="static/videos/step1_compressed.mp4">
           </video>
           <video data-label="sparse_to_dense" preload="auto" autoplay muted loop playsinline hidden
             src="static/videos/step2.mp4">
@@ -357,16 +433,16 @@
 
       <div class="scene-pills" id="video-gallery-pills">
         <div class="pill video-pill active" data-value="video1">
-          <img class="card-img" src="static/videos/results2/video1.png">
+          <img class="card-img" src="static/videos/results2_2/video1.png">
         </div>
         <div class="pill video-pill" data-value="video2">
-          <img class="card-img" src="static/videos/results2/video2.png">
+          <img class="card-img" src="static/videos/results2_2/video2.png">
         </div>
         <div class="pill video-pill" data-value="video4">
-          <img class="card-img" src="static/videos/results2/video4.png">
+          <img class="card-img" src="static/videos/results2_2/video4.png">
         </div>
         <div class="pill video-pill" data-value="video3">
-          <img class="card-img" src="static/videos/results2/video3.png">
+          <img class="card-img" src="static/videos/results2_2/video3.png">
         </div>
       </div>
         
