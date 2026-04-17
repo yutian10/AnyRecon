@@ -145,16 +145,41 @@
       border-color: transparent;
     }
 
+    .scene-pills {
+      display: flex;
+      overflow-x: auto;
+      white-space: nowrap;
+      gap: 10px;
+      padding-bottom: 10px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      justify-content: flex-start;
+    }
+    .scene-pills::-webkit-scrollbar {
+      height: 6px;
+    }
+    .scene-pills::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .scene-pills::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+    }
+    .scene-pills .pill {
+      flex: 0 0 auto;
+    }
+
     /* 针对手机屏幕优化视频选择按钮 */
     @media screen and (max-width: 768px) {
       #video-gallery-pills {
         display: flex !important;
-        justify-content: center !important;
+        justify-content: flex-start !important;
         flex-wrap: nowrap !important; /* 强制不换行 */
-        gap: 5px !important; /* 缩小间距 */
+        gap: 8px !important; /* 缩小间距 */
       }
       #video-gallery-pills .pill {
-        width: 22% !important; /* 4个按钮，每个占约1/4 */
+        width: 25% !important; /* 调整为固定宽度，允许滚动 */
+        min-width: 80px;
         margin: 0 !important;
         height: auto !important; /* 允许高度根据内容自动调整 */
         aspect-ratio: auto !important; /* 取消可能的强制宽高比 */
@@ -169,12 +194,13 @@
       /* 针对 Results 部分的图片按钮优化 */
       #comparisons-pills {
         display: flex !important;
-        justify-content: center !important;
+        justify-content: flex-start !important;
         flex-wrap: nowrap !important;
-        gap: 5px !important;
+        gap: 8px !important;
       }
       #comparisons-pills .pill {
-        width: 18% !important; /* 5个按钮，每个占约1/5 */
+        width: 25% !important; /* 调整为固定宽度，允许滚动 */
+        min-width: 80px;
         margin: 0 !important;
         height: auto !important;
         aspect-ratio: auto !important;
@@ -348,7 +374,16 @@
       
 
       <div class="scene-pills" id="comparisons-pills" role="group" aria-relevant="additions text">
-        <div class="pill scene-pill active" data-value="chair">
+        <div class="pill scene-pill active" data-value="village">
+          <img class="card-img" src="static/videos/results1/village.png">
+        </div>
+        <div class="pill scene-pill active" data-value="museum">
+          <img class="card-img" src="static/videos/results1/museum.png">
+        </div>
+        <div class="pill scene-pill active" data-value="valley">
+          <img class="card-img" src="static/videos/results1/valley.png">
+        </div>
+        <div class="pill scene-pill" data-value="chair">
           <img class="card-img" src="static/videos/results1/chair.png">
         </div>
         <div class="pill scene-pill" data-value="desk">
@@ -511,7 +546,7 @@
       const compareDiv = document.querySelector('#comparisons');
       const pills = compareDiv.querySelectorAll('.scene-pill');
       const resultsDisplay = document.getElementById('results-display');
-      const default_scene = 'chair';
+      const default_scene = 'village';
 
       function loadScene(label) {
         resultsDisplay.innerHTML = `
