@@ -53,7 +53,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
     }
     .video-comparison-container .video-2 {
       clip-path: inset(0 0 0 50%);
@@ -168,6 +168,9 @@
     .scene-pills .pill {
       flex: 0 0 auto;
     }
+    #video-gallery-pills {
+      justify-content: center;
+    }
 
     /* 针对手机屏幕优化视频选择按钮 */
     @media screen and (max-width: 768px) {
@@ -233,6 +236,126 @@
       z-index: 1;
       transition: opacity 0.5s;
     }
+
+    /* Dark Mode Styles */
+    body.dark-mode {
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+    body.dark-mode .title, 
+    body.dark-mode .subtitle, 
+    body.dark-mode h1, 
+    body.dark-mode h2, 
+    body.dark-mode h3, 
+    body.dark-mode p,
+    body.dark-mode .content {
+      color: #e0e0e0;
+    }
+    body.dark-mode .section {
+      background-color: #121212;
+    }
+    body.dark-mode .button.is-light {
+      background-color: #333;
+      color: #e0e0e0;
+    }
+    body.dark-mode .button.is-light:hover {
+      background-color: #444;
+    }
+    body.dark-mode .section-divider-line {
+      background: linear-gradient(to right, transparent, #555);
+    }
+    body.dark-mode .section-divider-line.right {
+      background: linear-gradient(to left, transparent, #555);
+    }
+    body.dark-mode .footer {
+      background-color: #1a1a1a;
+      border-top: 1px solid #333 !important;
+    }
+    body.dark-mode .footer p, body.dark-mode .footer a {
+      color: #aaa;
+    }
+    body.dark-mode .method-pill:not(.active) {
+      background-color: #333;
+      color: #e0e0e0;
+      border-color: #555;
+    }
+    body.dark-mode .method-pill:not(.active):hover {
+      background-color: #444;
+    }
+    body.dark-mode .slider-handle::after {
+      background: #333;
+      color: #fff;
+    }
+    body.dark-mode .scene-pills::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+    body.dark-mode .scene-pills::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+    body.dark-mode .publication-authors a {
+      color: #82b1ff !important;
+    }
+    body.dark-mode .publication-authors a:hover {
+      color: #b3d4ff;
+    }
+    body.dark-mode span[style*="color: #3273dc;"] {
+      color: #82b1ff !important;
+    }
+    body.dark-mode .video-comparison-container {
+      border: 1px solid #c1c1c1;
+    }
+    body.dark-mode .title-pill {
+      background-color: #333 !important;
+      color: #ffffff;
+      border: 2px solid #444;
+    }
+    body.dark-mode .title-pill:hover {
+      background-color: #686868 !important;
+      color: #ffffff;
+      border-color: #ffffff;
+    }
+    body.dark-mode .title-pill.active {
+      background-color: #3273dc;
+      color: #ffffff;
+      border: 2px solid #3273dc;
+    }
+    body.dark-mode .title-pill.active span {
+      color: #ffffff !important;
+    }
+    
+    /* BibTex Dark Mode */
+    body.dark-mode pre,
+    body.dark-mode pre code {
+      background-color: #2b2b2b;
+      color: #ffffff;
+    }
+    
+    /* Theme Toggle Button */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: background-color 0.3s, color 0.3s, transform 0.3s;
+      color: #333;
+      font-size: 1.2rem;
+    }
+    .theme-toggle:hover {
+      transform: scale(1.1);
+    }
+    body.dark-mode .theme-toggle {
+      background-color: #333;
+      color: #f1c40f;
+    }
   </style>
   <script src="static/js/video_comparison.js" defer></script>
 
@@ -244,7 +367,12 @@
   <script src="static/js/index.js"></script>
 </head>
 
-<body>
+<body class="dark-mode">
+  <!-- Theme Toggle Button -->
+  <div class="theme-toggle" id="theme-toggle" title="Toggle Dark Mode">
+    <i class="fas fa-sun" id="theme-icon"></i>
+  </div>
+
   <!-- > Hero -->
   <section class="section" id="section_hero">
     <div class="container is-max-desktop has-text-centered">
@@ -262,7 +390,7 @@
             <span class="author-block">
               <a href="http://yutian10.github.io" target="_blank">Yutian Chen<sup>&nbsp;1,2</sup></a></span>
             <span class="author-block">
-              <a href="https://guoshi28.github.io" target="_blank">Shi Guo<sup>&nbsp;1</sup></a></span>
+              <a href="https://guoshi28.github.io" target="_blank">Shi Guo<sup>&nbsp;1,&dagger;</sup></a></span>
             <span class="author-block">
               <a href="https://rbjin.github.io" target="_blank">Renbiao Jin<sup>&nbsp;1,3</sup></a></span>
             <span class="author-block">
@@ -276,9 +404,9 @@
             <span class="author-block">
               <a href="https://mulinyu.github.io" target="_blank">Mulin Yu<sup>&nbsp;1</sup></a></span>
             <span class="author-block">
-              <a href="https://eveneveno.github.io/lnxu/" target="_blank">Linning Xu<sup>&nbsp;1</sup></a></span>
+              <a href="https://eveneveno.github.io/lnxu/" target="_blank">Linning Xu<sup>&nbsp;1,2</sup></a></span>
             <span class="author-block">
-                <a href="http://tianfan.info" target="_blank">Tianfan Xue<sup>&nbsp;1,2,5</sup></a></span>
+                <a href="http://tianfan.info" target="_blank">Tianfan Xue<sup>&nbsp;2,1,5</sup></a></span>
           </div>
           <!-- Authors affiliation -->
           <div class="publication-authors">
@@ -377,10 +505,10 @@
         <div class="pill scene-pill active" data-value="village">
           <img class="card-img" src="static/videos/results1/village.png">
         </div>
-        <div class="pill scene-pill active" data-value="museum">
+        <div class="pill scene-pill" data-value="museum">
           <img class="card-img" src="static/videos/results1/museum.png">
         </div>
-        <div class="pill scene-pill active" data-value="valley">
+        <div class="pill scene-pill" data-value="valley">
           <img class="card-img" src="static/videos/results1/valley.png">
         </div>
         <div class="pill scene-pill" data-value="chair">
@@ -700,6 +828,36 @@
       }));
 
       updateGallery();
+    });
+  </script>
+
+  <!-- > Theme Toggle Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = document.getElementById('theme-icon');
+      const body = document.body;
+      
+      // Check local storage for theme preference, default is dark
+      const currentTheme = localStorage.getItem('theme');
+      if (currentTheme === 'light') {
+        body.classList.remove('dark-mode');
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+      }
+      
+      themeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        if (body.classList.contains('dark-mode')) {
+          localStorage.setItem('theme', 'dark');
+          themeIcon.classList.remove('fa-moon');
+          themeIcon.classList.add('fa-sun');
+        } else {
+          localStorage.setItem('theme', 'light');
+          themeIcon.classList.remove('fa-sun');
+          themeIcon.classList.add('fa-moon');
+        }
+      });
     });
   </script>
 
