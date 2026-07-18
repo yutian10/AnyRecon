@@ -297,6 +297,9 @@
     body.dark-mode .publication-authors a:hover {
       color: #b3d4ff;
     }
+    body.dark-mode .publication-venue {
+      color: #e0e0e0;
+    }
     body.dark-mode span[style*="color: #3273dc;"] {
       color: #82b1ff !important;
     }
@@ -384,6 +387,45 @@
             <span class="pub-subtitle">Arbitrary-View 3D Reconstruction </br>
               with Video Diffusion Model</span>
           </h1>
+         
+          <div class="is-size-5 publication-authors">
+            <!-- Paper authors -->
+            <span class="author-block">
+              <a href="http://yutian10.github.io" target="_blank">Yutian Chen<sup>&nbsp;1,2</sup></a></span>
+            <span class="author-block">
+              <a href="https://guoshi28.github.io" target="_blank">Shi Guo<sup>&nbsp;1,&dagger;</sup></a></span>
+            <span class="author-block">
+              <a href="https://rbjin.github.io" target="_blank">Renbiao Jin<sup>&nbsp;1,3</sup></a></span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=9b5dE40AAAAJ&hl=en" target="_blank">Tianshuo Yang<sup>&nbsp;1,4</sup></a></span>
+            <span class="author-block">
+              <a href="https://caixin98.github.io" target="_blank">Xin Cai<sup>&nbsp;1,2</sup></a></span>
+            <span class="author-block">
+              <a href="https://luo0207.github.io/yawenluo/" target="_blank">Yawen Luo<sup>&nbsp;2</sup></a></span>
+            <span class="author-block">
+              <a href="" target="_blank">Mingxin Yang<sup>&nbsp;3</sup></a></span>
+            <span class="author-block">
+              <a href="https://mulinyu.github.io" target="_blank">Mulin Yu<sup>&nbsp;1</sup></a></span>
+            <span class="author-block">
+              <a href="https://eveneveno.github.io/lnxu/" target="_blank">Linning Xu<sup>&nbsp;1,2</sup></a></span>
+            <span class="author-block">
+                <a href="http://tianfan.info" target="_blank">Tianfan Xue<sup>&nbsp;2,1,5</sup></a></span>
+          </div>
+          <!-- Authors affiliation -->
+          <div class="publication-authors">
+            <div class="is-size-5">
+              <span class="author-block"><sup>1&nbsp;</sup>Shanghai AI Laboratory</span>
+              <span class="author-block"><sup>2&nbsp;</sup>CUHK MMLab</span>
+              <span class="author-block"><sup>3&nbsp;</sup>SJTU</span>
+              <span class="author-block"><sup>4&nbsp;</sup>HKU</span>
+              <span class="author-block"><sup>5&nbsp;</sup>CPII under InnoHK</span>
+            </div>
+
+          </div>
+
+          <div class="is-size-4 publication-conference">
+            <span class="publication-venue">SIGGRAPH Asia 2026</span>
+          </div>
           <!-- <div class="is-size-5 publication-authors">
             <span class="author-block">Anonymous Submission</span>
           </div> -->
@@ -393,10 +435,31 @@
           <div class="column">
             <div class="publication-links">
               <span class="link-block">
+                <a href="https://arxiv.org/pdf/2604.19747" target="_blank"
+                  class="external-link button is-normal is-rounded is-light">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
                 <a href="https://github.com/OpenImagingLab/AnyRecon/tree/main" target="_blank"
                   class="external-link button is-normal is-rounded is-light">
                   <span class="icon"><i class="fab fa-github"></i></span>
                   <span>Code</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://huggingface.co/Yutian10/AnyRecon/tree/main"
+                  target="_blank" class="external-link button is-normal is-rounded is-light">
+                  <span class="icon"><i class="fas fa-database"></i></span>
+                  <span>Checkpoints</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="#" target="_blank"
+                  class="external-link button is-normal is-rounded is-light">
+                  <span class="icon"><i class="fab fa-youtube"></i></span>
+                  <span>Video</span>
                 </a>
               </span>
             </div>
@@ -572,15 +635,31 @@
     </div>
   </section>
 
-  
+  <!-- > bib -->
+  <section class="section" id="section_bibtex">
+    <div class="container is-max-desktop">
+      <div class="section-divider-container">
+        <div class="section-divider-line"></div>
+        <h2 class="title section-divider-title">BibTeX</h2>
+        <div class="section-divider-line right"></div>
+        
+      </div>
+      <pre><code class="is-small">@article{chen2026anyrecon,
+        title={AnyRecon: Arbitrary-View 3D Reconstruction with Video Diffusion Model},
+        author={Chen, Yutian and Guo, Shi and Jin, Renbiao and Yang, Tianshuo and Cai, Xin and Luo, Yawen and Yang, Mingxin and Yu, Mulin and Xu, Linning and Xue, Tianfan},
+        journal={arXiv preprint arXiv:2604.19747},
+        year={2026}
+      }</code></pre>
+    </div>
+  </section>
 
 
   <!-- > Footer -->
-  <footer class="footer">
+  <!-- <footer class="footer">
     <div class="container is-max-desktop" style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #1C1C1E;">
       <p>Anonymous submission.</p>
     </div>
-  </footer>
+  </footer> -->
 
   <!-- > Overview video switcher -->
   <script>
